@@ -14,6 +14,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @Column(unique = true)
     private String email;
     private String password;
     private String phone;
@@ -82,6 +84,7 @@ public class User {
         this.birthDate = birthDate;
     }
 
+    // nunca fazemos set em listas!
     public List<Order> getOrders() {
         return orders;
     }
