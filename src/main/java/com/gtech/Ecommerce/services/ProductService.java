@@ -32,15 +32,33 @@ public class ProductService {
 
     @Transactional
     public ProductDTO insert(ProductDTO productDTO) {
-        // prepara a entity para o DTO e devolve
-        Product product = new Product();
-        product.setName(productDTO.getName());
-        product.setDescription(productDTO.getDescription());
-        product.setPrice(productDTO.getPrice());
-        product.setImgUrl(productDTO.getImgUrl());
+        Product product = new Product(); // instancia entity
+        copyDtoToEntity(productDTO, product); // copia DTO recebido para entity
+        product = repository.save(product); // salva entity
 
+        return new ProductDTO(product); // devolve DTO
+    }
+
+    @Transactional
+    public ProductDTO update(Long id, ProductDTO productDTO) {
+        // referencia o id product sem abrir o banco
+        Product product = repository.getReferenceById(id);
+        copyDtoToEntity(productDTO, product);
         product = repository.save(product);
 
         return new ProductDTO(product);
     }
+
+    @Transactional
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
+    private void copyDtoToEntity(ProductDTO productDTO, Product product) {
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setPrice(productDTO.getPrice());
+        product.setImgUrl(productDTO.getImgUrl());
+    }
+
 }
