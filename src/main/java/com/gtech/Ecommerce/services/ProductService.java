@@ -28,4 +28,19 @@ public class ProductService {
         Page<Product> result = repository.findAll(pageable); // page já é um stream
         return result.map(x -> new ProductDTO(x));
     }
+
+
+    @Transactional
+    public ProductDTO insert(ProductDTO productDTO) {
+        // prepara a entity para o DTO e devolve
+        Product product = new Product();
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setPrice(productDTO.getPrice());
+        product.setImgUrl(productDTO.getImgUrl());
+
+        product = repository.save(product);
+
+        return new ProductDTO(product);
+    }
 }
