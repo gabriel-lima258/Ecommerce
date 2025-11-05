@@ -31,8 +31,8 @@ public class ProductService {
 
     // usando Page e Pageable para retornar dados paginados
     @Transactional(readOnly = true) // aumenta a perfomance de leitura e bloquia o write
-    public Page<ProductDTO> findAll(Pageable pageable) {
-        Page<Product> result = repository.findAll(pageable); // page já é um stream
+    public Page<ProductDTO> findAll(String name, Pageable pageable) {
+        Page<Product> result = repository.searchByName(name, pageable); // page já é um stream
         return result.map(x -> new ProductDTO(x));
     }
 
