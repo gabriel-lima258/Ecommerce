@@ -1,6 +1,7 @@
 package com.gtech.Ecommerce.services;
 
 import com.gtech.Ecommerce.dto.ProductDTO;
+import com.gtech.Ecommerce.dto.ProductMinDTO;
 import com.gtech.Ecommerce.entities.Product;
 import com.gtech.Ecommerce.repositories.ProductRepository;
 import com.gtech.Ecommerce.services.exceptions.DatabaseException;
@@ -31,9 +32,9 @@ public class ProductService {
 
     // usando Page e Pageable para retornar dados paginados
     @Transactional(readOnly = true) // aumenta a perfomance de leitura e bloquia o write
-    public Page<ProductDTO> findAll(String name, Pageable pageable) {
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable) {
         Page<Product> result = repository.searchByName(name, pageable); // page já é um stream
-        return result.map(x -> new ProductDTO(x));
+        return result.map(x -> new ProductMinDTO(x));
     }
 
 

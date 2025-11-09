@@ -1,6 +1,7 @@
 package com.gtech.Ecommerce.controllers;
 
 import com.gtech.Ecommerce.dto.ProductDTO;
+import com.gtech.Ecommerce.dto.ProductMinDTO;
 import com.gtech.Ecommerce.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +30,10 @@ public class ProductController {
     // criando uma rota paginada de produtos, por padrão vem 20 Items
     // usamos buscas de params ?size=12&page=0&sort=name,asc para modificar buscas
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(
+    public ResponseEntity<Page<ProductMinDTO>> findAll(
             @RequestParam(name = "name", defaultValue = "") String name,
             Pageable pageable) {
-        Page<ProductDTO> dto = service.findAll(name, pageable);
+        Page<ProductMinDTO> dto = service.findAll(name, pageable);
         return ResponseEntity.ok(dto);
     }
 
