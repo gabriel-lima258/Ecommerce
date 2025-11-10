@@ -1,6 +1,6 @@
 package com.gtech.Ecommerce.services;
 
-import com.gtech.Ecommerce.dto.UserDTO;
+import com.gtech.Ecommerce.dto.user.UserDTO;
 import com.gtech.Ecommerce.entities.Role;
 import com.gtech.Ecommerce.entities.User;
 import com.gtech.Ecommerce.projections.UserDetailsProjection;

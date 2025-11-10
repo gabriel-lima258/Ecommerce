@@ -1,4 +1,4 @@
-package com.gtech.Ecommerce.dto;
+package com.gtech.Ecommerce.dto.user;
 
 import com.gtech.Ecommerce.entities.User;
 import org.springframework.security.core.GrantedAuthority;

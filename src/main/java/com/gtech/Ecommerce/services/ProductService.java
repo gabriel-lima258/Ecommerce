@@ -1,7 +1,9 @@
 package com.gtech.Ecommerce.services;
 
-import com.gtech.Ecommerce.dto.ProductDTO;
-import com.gtech.Ecommerce.dto.ProductMinDTO;
+import com.gtech.Ecommerce.dto.product.CategoryDTO;
+import com.gtech.Ecommerce.dto.product.ProductDTO;
+import com.gtech.Ecommerce.dto.product.ProductMinDTO;
+import com.gtech.Ecommerce.entities.Category;
 import com.gtech.Ecommerce.entities.Product;
 import com.gtech.Ecommerce.repositories.ProductRepository;
 import com.gtech.Ecommerce.services.exceptions.DatabaseException;
@@ -40,22 +42,22 @@ public class ProductService {
 
     @Transactional
     public ProductDTO insert(ProductDTO productDTO) {
-        Product product = new Product(); // instancia entity
-        copyDtoToEntity(productDTO, product); // copia DTO recebido para entity
-        product = repository.save(product); // salva entity
+        Product entity = new Product(); // instancia entity
+        copyDtoToEntity(productDTO, entity); // copia DTO recebido para entity
+        entity = repository.save(entity); // salva entity
 
-        return new ProductDTO(product); // devolve DTO
+        return new ProductDTO(entity); // devolve DTO
     }
 
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
         try {
             // referencia o id product sem abrir o banco
-            Product product = repository.getReferenceById(id);
-            copyDtoToEntity(dto, product);
-            product = repository.save(product);
+            Product entity = repository.getReferenceById(id);
+            copyDtoToEntity(dto, entity);
+            entity = repository.save(entity);
 
-            return new ProductDTO(product);
+            return new ProductDTO(entity);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado");
         }
@@ -80,6 +82,16 @@ public class ProductService {
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgUrl());
+
+        // limpar as categorias antes de inserir ou atualizar elas
+        entity.getCategories().clear();
+
+        // varrer as categorias de produto
+        for (CategoryDTO catDto: dto.getCategories()) {
+            Category category = new Category();
+            category.setId(catDto.getId()); // copia o valor do post dentro de uma nova categoria
+            entity.getCategories().add(category); // adiciona o category no set dentro de produto
+        }
     }
 
 }

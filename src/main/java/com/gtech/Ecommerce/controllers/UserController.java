@@ -1,6 +1,6 @@
 package com.gtech.Ecommerce.controllers;
 
-import com.gtech.Ecommerce.dto.UserDTO;
+import com.gtech.Ecommerce.dto.user.UserDTO;
 import com.gtech.Ecommerce.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

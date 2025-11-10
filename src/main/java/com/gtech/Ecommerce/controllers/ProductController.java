@@ -1,7 +1,7 @@
 package com.gtech.Ecommerce.controllers;
 
-import com.gtech.Ecommerce.dto.ProductDTO;
-import com.gtech.Ecommerce.dto.ProductMinDTO;
+import com.gtech.Ecommerce.dto.product.ProductDTO;
+import com.gtech.Ecommerce.dto.product.ProductMinDTO;
 import com.gtech.Ecommerce.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

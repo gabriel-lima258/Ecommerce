@@ -1,4 +1,4 @@
-package com.gtech.Ecommerce.dto;
+package com.gtech.Ecommerce.dto.product;
 
 import com.gtech.Ecommerce.entities.Product;
 
