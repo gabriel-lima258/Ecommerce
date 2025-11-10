@@ -3,6 +3,7 @@ package com.gtech.Ecommerce.controllers.handlers;
 import com.gtech.Ecommerce.dto.CustomErrorDTO;
 import com.gtech.Ecommerce.dto.ValidationErrorDTO;
 import com.gtech.Ecommerce.services.exceptions.DatabaseException;
+import com.gtech.Ecommerce.services.exceptions.ForbiddenException;
 import com.gtech.Ecommerce.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,13 @@ public class ControllerExceptionHandler {
         for (FieldError f : e.getBindingResult().getFieldErrors()) { // percorre todos os erros encontrados de campos
             err.addError(f.getField(), f.getDefaultMessage());
         }
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<CustomErrorDTO> forbidden(ForbiddenException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
 }
