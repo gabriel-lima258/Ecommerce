@@ -61,7 +61,6 @@ INSERT INTO tb_user (name, email, phone, password, birth_date) VALUES ('Alex Gre
 INSERT INTO tb_role (authority) VALUES ('ROLE_CLIENT');
 INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
 INSERT INTO tb_user_role (user_id , role_id) VALUES (1, 1);
-INSERT INTO tb_user_role (user_id , role_id) VALUES (2, 1);
 INSERT INTO tb_user_role (user_id , role_id) VALUES (2, 2);
 
 INSERT INTO tb_order (moment, status, client_id) VALUES (TIMESTAMP WITH TIME ZONE '2022-07-25T13:00:00Z', 1, 1);
