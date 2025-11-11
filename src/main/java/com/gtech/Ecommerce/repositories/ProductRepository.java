@@ -8,8 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query(value = "SELECT obj FROM Product obj " +
-            "WHERE UPPER(obj.name) " +
-            "LIKE UPPER(CONCAT('%', :name, '%'))")
+    @Query(nativeQuery = true, value = """ 
+           SELECT * FROM tb_product
+           WHERE UPPER(name)
+           LIKE UPPER(CONCAT('%', :name, '%'))
+           """)
     Page<Product> searchByName(String name, Pageable pageable);
 }
