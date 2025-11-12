@@ -2,6 +2,7 @@ package com.gtech.Ecommerce.entities;
 
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +20,10 @@ public class Product {
     private String description;
     private Double price;
     private String imgUrl;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant createdAt;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updatedAt;
 
     // como é uma relação muitos para muitos, usamos o set para nao duplicar id
     @ManyToMany
@@ -82,6 +87,7 @@ public class Product {
         this.imgUrl = imgUrl;
     }
 
+
     public Set<Category> getCategories() {
         return categories;
     }
@@ -93,6 +99,16 @@ public class Product {
     // em produto consigo pegar orders atraves do orderItem
     public List<Order> getOrders() {
         return items.stream().map(x -> x.getOrder()).toList();
+    }
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = Instant.now();
     }
 
     @Override
