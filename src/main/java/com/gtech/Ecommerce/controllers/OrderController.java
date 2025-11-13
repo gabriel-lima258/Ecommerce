@@ -1,7 +1,6 @@
 package com.gtech.Ecommerce.controllers;
 
 import com.gtech.Ecommerce.dto.order.OrderDTO;
-import com.gtech.Ecommerce.dto.product.ProductDTO;
 import com.gtech.Ecommerce.services.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
