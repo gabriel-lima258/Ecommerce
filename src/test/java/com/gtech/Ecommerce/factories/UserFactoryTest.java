@@ -1,11 +1,9 @@
 package com.gtech.Ecommerce.factories;
 
 import com.gtech.Ecommerce.dto.user.UserDTO;
-import com.gtech.Ecommerce.entities.Category;
 import com.gtech.Ecommerce.entities.Role;
 import com.gtech.Ecommerce.entities.User;
 
-import java.time.Instant;
 import java.time.LocalDate;
 
 public class UserFactoryTest {

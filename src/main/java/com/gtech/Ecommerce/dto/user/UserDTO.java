@@ -15,7 +15,7 @@ public class UserDTO {
     private String phone;
     private LocalDate birthDate;
 
-    List<String> roles = new ArrayList<>();
+    List<RoleDTO> roles = new ArrayList<>();
 
     public UserDTO(User entity) {
         id = entity.getId();
@@ -23,9 +23,10 @@ public class UserDTO {
         email = entity.getEmail();
         phone = entity.getPhone();
         birthDate = entity.getBirthDate();
-        for (GrantedAuthority role: entity.getRoles()) {
-            roles.add(role.getAuthority());
-        }
+        entity.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
+    }
+
+    public UserDTO() {
     }
 
     public Long getId() {
@@ -48,7 +49,7 @@ public class UserDTO {
         return birthDate;
     }
 
-    public List<String> getRoles() {
+    public List<RoleDTO> getRoles() {
         return roles;
     }
 }
