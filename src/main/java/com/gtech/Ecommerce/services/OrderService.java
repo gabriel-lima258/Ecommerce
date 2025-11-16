@@ -57,7 +57,7 @@ public class OrderService {
         order.setStatus(OrderStatus.WAITING_PAYMENT);
 
         // crio o user autenticado e set em order
-        User user = userService.authenticated();
+        User user = authService.authenticated();
         order.setClient(user);
 
         // percorre item do dto que o user passou

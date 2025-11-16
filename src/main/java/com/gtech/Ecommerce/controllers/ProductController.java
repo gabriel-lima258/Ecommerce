@@ -27,8 +27,6 @@ public class ProductController {
         return ResponseEntity.ok(dto);
     }
 
-    // criando uma rota paginada de produtos, por padrão vem 20 Items
-    // usamos buscas de params ?size=12&page=0&sort=name,asc para modificar buscas
     @GetMapping
     public ResponseEntity<Page<ProductMinDTO>> findAll(
             @RequestParam(name = "name", defaultValue = "") String name,

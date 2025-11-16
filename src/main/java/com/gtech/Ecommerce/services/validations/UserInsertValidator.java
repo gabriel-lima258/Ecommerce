@@ -26,8 +26,6 @@ public class UserInsertValidator implements ConstraintValidator<UserInsertValid,
 
         List<FieldMessageDTO> list = new ArrayList<>();
 
-        // Coloque aqui seus testes de validação, acrescentando objetos FieldMessage à lista
-
         // tratando o erro de email unico
         User user = repository.findByEmail(dto.getEmail());
         if (user != null) {

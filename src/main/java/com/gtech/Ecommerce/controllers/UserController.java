@@ -3,6 +3,7 @@ package com.gtech.Ecommerce.controllers;
 import com.gtech.Ecommerce.dto.user.UserDTO;
 import com.gtech.Ecommerce.dto.user.UserInsertDTO;
 import com.gtech.Ecommerce.dto.user.UserUpdateDTO;
+import com.gtech.Ecommerce.services.AuthService;
 import com.gtech.Ecommerce.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class UserController {
 
     @Autowired
     private UserService service;
+
+    @Autowired
+    private AuthService authService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
@@ -63,9 +67,9 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
-    @GetMapping("/me")
+    @GetMapping("/profile")
     public ResponseEntity<UserDTO> getMe() {
-        UserDTO dto = service.getMe();
+        UserDTO dto = authService.findProfile();
         return ResponseEntity.ok(dto);
     }
 }
