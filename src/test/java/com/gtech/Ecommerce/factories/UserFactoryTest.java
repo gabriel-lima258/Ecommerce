@@ -13,6 +13,12 @@ public class UserFactoryTest {
         return user;
     }
 
+    public static User createUser(Long id, String name, String email, String password, String phone, Long roleId, String roleName) {
+        User user = new User(id, name, email, password, phone, LocalDate.now());
+        user.getRoles().add(new Role(roleId, roleName));
+        return user;
+    }
+
     public static UserDTO createUserDTO() {
         User user = createUser();
         return new UserDTO(user);

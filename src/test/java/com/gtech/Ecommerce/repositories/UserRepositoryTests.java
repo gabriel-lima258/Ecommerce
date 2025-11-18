@@ -27,7 +27,7 @@ public class UserRepositoryTests {
         void setUp() throws Exception {
             existingId = 1L;
             noExistingId = 200L;
-            countTotalUser = 2L;
+            countTotalUser = 3L;
             name = "Notebook";
             email = "test@gmail.com";
         }
