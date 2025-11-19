@@ -9,6 +9,7 @@ import com.gtech.Ecommerce.repositories.PasswordRecoverRepository;
 import com.gtech.Ecommerce.repositories.UserRepository;
 import com.gtech.Ecommerce.services.exceptions.ForbiddenException;
 import com.gtech.Ecommerce.services.exceptions.ResourceNotFoundException;
+import com.gtech.Ecommerce.utils.CustomUserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -47,6 +48,9 @@ public class AuthService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private CustomUserUtil customUserUtil;
 
     // validação se o user é ele mesmo ou se é ADMIN
     public void validateSelfOrAdmin(long userId) {
@@ -91,10 +95,7 @@ public class AuthService {
 
     protected User authenticated() {
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            Jwt jwtPrincipal = (Jwt) authentication.getPrincipal();
-            String username = jwtPrincipal.getClaim("username");
-
+            String username = customUserUtil.getLoggedUsername();
             return userRepository.findByEmail(username);
         } catch (Exception e) {
             throw new UsernameNotFoundException("User not found");

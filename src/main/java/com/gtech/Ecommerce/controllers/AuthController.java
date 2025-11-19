@@ -37,24 +37,4 @@ public class AuthController {
         service.saveNewPassword(dto);
         return ResponseEntity.noContent().build();
     }
-
-    // metodo para retornar os dados do usuario logado
-    protected User authenticated() {
-        try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            Jwt jwtPrincipal = (Jwt) authentication.getPrincipal();
-            String username = jwtPrincipal.getClaim("username");
-
-            // quando é optional tem que usar get()
-            return repository.findByEmail(username);
-        } catch (Exception e) {
-            throw new UsernameNotFoundException("User not found");
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public UserDTO getMe() {
-        User user = authenticated();
-        return new UserDTO(user);
-    }
 }
