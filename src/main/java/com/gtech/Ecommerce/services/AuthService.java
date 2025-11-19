@@ -10,6 +10,7 @@ import com.gtech.Ecommerce.repositories.UserRepository;
 import com.gtech.Ecommerce.services.exceptions.ForbiddenException;
 import com.gtech.Ecommerce.services.exceptions.ResourceNotFoundException;
 import com.gtech.Ecommerce.utils.CustomUserUtil;
+import com.gtech.Ecommerce.utils.EmailTemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -52,6 +53,9 @@ public class AuthService {
     @Autowired
     private CustomUserUtil customUserUtil;
 
+    @Autowired
+    private EmailTemplateUtil emailTemplateUtil;
+
     // validação se o user é ele mesmo ou se é ADMIN
     public void validateSelfOrAdmin(long userId) {
         User me = authenticated();
@@ -75,10 +79,9 @@ public class AuthService {
         entity.setExpiration(Instant.now().plusSeconds(tokenMinutes * 60));
         entity = passwordRecoverRepository.save(entity);
 
-        String bodyMessage = "Acesse o link de recuperação de email\n\n" +
-                recoverUri + token + "\n\nValidade de " + tokenMinutes + " minutos.";
+        String htmlBody = emailTemplateUtil.buildRecoveryEmailHtml(user.getName(), recoverUri + token, tokenMinutes);
 
-        emailService.sendEmail(dto.getEmail(), "Recuperação de senha", bodyMessage);
+        emailService.sendHtmlEmail(dto.getEmail(), "Recuperação de Senha - Ecommerce", htmlBody);
     }
 
     @Transactional
