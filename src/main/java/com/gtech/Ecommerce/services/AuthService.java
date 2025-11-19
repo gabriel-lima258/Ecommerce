@@ -48,9 +48,6 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
-
-
     // validação se o user é ele mesmo ou se é ADMIN
     public void validateSelfOrAdmin(long userId) {
         User me = authenticated();

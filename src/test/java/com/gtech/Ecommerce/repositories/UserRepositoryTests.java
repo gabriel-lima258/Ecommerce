@@ -52,11 +52,12 @@ public class UserRepositoryTests {
 
         @Test
         public void saveShouldPersistAutoIncrementWhenIdIsNull() {
-            User product = UserFactoryTest.createUser();
-            product.setId(null);
-            repository.save(product);
-            Assertions.assertNotNull(product.getId());
-            Assertions.assertEquals(countTotalUser + 1, product.getId());
+            // Create a new user with unique email to avoid constraint violation
+            User newUser = UserFactoryTest.createCustomUserClient(null, "newuser@gmail.com");
+            newUser.setId(null);
+            repository.save(newUser);
+            Assertions.assertNotNull(newUser.getId());
+            Assertions.assertEquals(countTotalUser + 1, newUser.getId());
         }
 
         @Test

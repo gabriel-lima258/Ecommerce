@@ -36,7 +36,7 @@ public class ProductService {
     @Transactional(readOnly = true) // aumenta a perfomance de leitura e bloquia o write
     public Page<ProductMinDTO> findAll(String name, Pageable pageable) {
         Page<Product> result = repository.searchByName(name, pageable); // page já é um stream
-        return result.map(x -> new ProductMinDTO(x));
+        return result.map(ProductMinDTO::new);
     }
 
 
