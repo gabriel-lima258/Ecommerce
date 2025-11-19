@@ -112,6 +112,8 @@
                         <exclude>com/gtech/Ecommerce/entities/**</exclude>
                         <exclude>com/gtech/Ecommerce/dto/**</exclude>
                         <exclude>com/gtech/Ecommerce/projections/**</exclude>
+                        <exclude>com/gtech/Ecommerce/utils/**</exclude>
+                        <exclude>com/gtech/Ecommerce/controllers/**</exclude>
                         <exclude>com/gtech/Ecommerce/controllers/handlers/**</exclude>
                         <exclude>com/gtech/Ecommerce/services/exceptions/**</exclude>
                         <exclude>com/gtech/Ecommerce/services/validations/**</exclude>

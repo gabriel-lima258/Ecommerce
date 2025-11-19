@@ -49,7 +49,6 @@ public class OrderService {
 
     @Transactional
     public OrderDTO insert(OrderDTO dto) {
-        // instancia o order
         Order order = new Order();
 
         // coloco os atributos de order

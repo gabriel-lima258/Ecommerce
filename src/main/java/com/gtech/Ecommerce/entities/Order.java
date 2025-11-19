@@ -33,7 +33,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, Instant moment, OrderStatus status, User client, Payment payment, Set<OrderItem> items) {
+    public Order(Long id, Instant moment, OrderStatus status, User client, Payment payment) {
         this.id = id;
         this.moment = moment;
         this.status = status;

@@ -57,16 +57,17 @@ public class AuthService {
     private EmailTemplateUtil emailTemplateUtil;
 
     // validação se o user é ele mesmo ou se é ADMIN
-    public void validateSelfOrAdmin(long userId) {
+    public void validateSelfOrAdmin(Long userId) {
         User me = authenticated();
-        if (!me.hasRole("ROLE_ADMIN") && !me.getId().equals(userId)) {
-            throw new ForbiddenException("Access Denied");
-        }
+
+        if (me.hasRole("ROLE_ADMIN")) return;
+        if (!me.getId().equals(userId)) throw new ForbiddenException("Access Denied. It should self or admin");
     }
 
     @Transactional
     public void createRecoverToken(EmailDTO dto) {
         User user = userRepository.findByEmail(dto.getEmail());
+
         if (user == null) {
             throw new ResourceNotFoundException("Falha ao enviar o email");
         }

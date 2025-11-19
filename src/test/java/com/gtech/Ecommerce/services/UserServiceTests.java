@@ -66,7 +66,6 @@ public class UserServiceTests {
         }
     }
 
-    @Spy
     @InjectMocks
     private UserService service;
 
@@ -80,9 +79,7 @@ public class UserServiceTests {
     private PasswordEncoder passwordEncoder;
 
 
-    private Long existingId;
-    private Long noExistingId;
-    private Long dependentId;
+    private Long existingId, noExistingId, dependentId;
     private String existingUsername, noExistingUsername;
     private User user;
     private List<UserDetailsProjection> userDetails;
