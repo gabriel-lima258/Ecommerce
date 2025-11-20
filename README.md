@@ -174,6 +174,8 @@ src/
 
 ## 🗄️ Modelo de Dados
 
+![Diagrama UML do Modelo de Domínio](public/Uml-Ecommerce.png)
+
 ### Entidades Principais
 
 #### 1. **User (Usuário/Cliente)**
