@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ecommerce-postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME:-dsecommerce}
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ecommerce-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ecommerce-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Spring Profile
+      APP_PROFILE: ${APP_PROFILE:-prod}
+      
+      # Database Configuration
+      DB_URL: jdbc:postgresql://postgres:5432/${DB_NAME:-dsecommerce}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      
+      # Security Configuration
+      CLIENT_ID: ${CLIENT_ID:-myclientid}
+      CLIENT_SECRET: ${CLIENT_SECRET:-myclientsecret}
+      JWT_DURATION: ${JWT_DURATION:-86400}
+      
+      # CORS Configuration
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://localhost:5173}
+      
+      # Email Configuration
+      EMAIL_HOST: ${EMAIL_HOST:-smtp.gmail.com}
+      EMAIL_PORT: ${EMAIL_PORT:-587}
+      EMAIL_USERNAME: ${EMAIL_USERNAME:-}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD:-}
+      PASSWORD_RECOVER_TOKEN_MINUTES: ${PASSWORD_RECOVER_TOKEN_MINUTES:-30}
+      PASSWORD_RECOVER_URI: ${PASSWORD_RECOVER_URI:-http://localhost:5173/recover-password/}
+      
+      # AWS S3 Configuration
+      AWS_KEY: ${AWS_KEY:-}
+      AWS_SECRET: ${AWS_SECRET:-}
+      ECOMMERCE_BUCKET_NAME: ${ECOMMERCE_BUCKET_NAME:-}
+      ECOMMERCE_BUCKET_REGION: ${ECOMMERCE_BUCKET_REGION:-}
+      
+      # File Upload Configuration
+      MAX_FILE_SIZE: ${MAX_FILE_SIZE:-10MB}
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    networks:
+      - ecommerce-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  ecommerce-network:
+    driver: bridge
+
