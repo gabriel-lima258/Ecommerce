@@ -2,6 +2,7 @@ package com.gtech.Ecommerce.controllers;
 
 import com.gtech.Ecommerce.dto.product.ProductDTO;
 import com.gtech.Ecommerce.dto.product.ProductMinDTO;
+import com.gtech.Ecommerce.dto.upload.UriDTO;
 import com.gtech.Ecommerce.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -57,6 +59,13 @@ public class ProductController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/image")
+    public ResponseEntity<UriDTO> insert(@RequestParam("file") MultipartFile file) {
+        UriDTO dto = service.uploadFile(file);
+        return ResponseEntity.ok().body(dto);
     }
 
 }

@@ -3,6 +3,7 @@ package com.gtech.Ecommerce.services;
 import com.gtech.Ecommerce.dto.product.CategoryDTO;
 import com.gtech.Ecommerce.dto.product.ProductDTO;
 import com.gtech.Ecommerce.dto.product.ProductMinDTO;
+import com.gtech.Ecommerce.dto.upload.UriDTO;
 import com.gtech.Ecommerce.entities.Category;
 import com.gtech.Ecommerce.entities.Product;
 import com.gtech.Ecommerce.repositories.ProductRepository;
@@ -16,12 +17,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.net.URL;
 
 @Service
 public class ProductService {
 
     @Autowired
     ProductRepository repository;
+
+    @Autowired
+    S3Service s3Service;
 
     // services devolvem DTO ao inves da propria entidade
     @Transactional(readOnly = true) // aumenta a perfomance de leitura e bloquia o write
@@ -77,6 +84,11 @@ public class ProductService {
         }
     }
 
+    public UriDTO uploadFile(MultipartFile file) {
+        URL url = s3Service.uploadFile(file, "products");
+        return new UriDTO(url.toString());
+    }
+
     private void copyDtoToEntity(ProductDTO dto, Product entity) {
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
@@ -93,5 +105,4 @@ public class ProductService {
             entity.getCategories().add(category); // adiciona o category no set dentro de produto
         }
     }
-
 }
